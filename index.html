@@ -129,7 +129,7 @@
         }
         .hero-bg {
             position: absolute; inset: 0;
-            background: url('img/Fachada SuperBoxes.jpg') center 28% / cover no-repeat;
+            background: url('img/Fachada.png') 40% 16% / 138% no-repeat;
         }
         .hero-bg::after {
             content: ''; position: absolute; inset: 0;
@@ -323,12 +323,6 @@
         .service-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; font-weight: 300; }
 
         /* ── SERVICES PHOTO ── */
-        .services-photo {
-            max-width: 600px; margin: 3rem auto 0; border-radius: 8px; overflow: hidden;
-            border: 1px solid rgba(var(--green-rgb), 0.1);
-        }
-        .services-photo img { width: 100%; height: auto; display: block; }
-
         /* ── NEWS ── */
         .news { background: linear-gradient(180deg, var(--bg-light) 0%, var(--bg) 100%); }
         .news-grid {
@@ -475,13 +469,19 @@
             .footer-meta { align-items: center; }
             .footer-logo { width: 180px; }
             .hero { min-height: 100vh; }
-            .hero-bg { background-position: center 24%; }
+            .hero-bg {
+                background-position: 42% 14%;
+                background-size: 190%;
+            }
             .hero-content { padding: 1.5rem 1.2rem; border-radius: 14px; }
             .sector-banner { height: 360px; margin: -4rem -1.5rem 3rem -1.5rem; }
             .sector-banner-text { left: 1.5rem; padding: 0.8rem 1rem; max-width: calc(100% - 3rem); }
         }
         @media (max-width: 480px) {
-            .hero-bg { background-position: center 20%; }
+            .hero-bg {
+                background-position: 44% 12%;
+                background-size: 235%;
+            }
             .about-image { height: 360px; }
             .sector-banner { height: 300px; }
             .form-shell { padding: 1.4rem; }
@@ -805,9 +805,6 @@
                 <h4>Atendimento personalizado</h4>
                 <p>Equipe preparada para ajudar você a encontrar exatamente o que precisa.</p>
             </div>
-        </div>
-        <div class="services-photo reveal">
-            <img src="img/Banheiros.jpg" alt="Estrutura Super Boxes 100" loading="lazy" decoding="async">
         </div>
     </section>
 
