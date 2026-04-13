@@ -1,0 +1,1028 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Boxes 100 | Shopping Center - Fortaleza, CE</title>
+    <meta name="description" content="Super Boxes 100 - O shopping de moda mais completo do Centro de Fortaleza. Mais de 80 lojas com as melhores marcas.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #187045;
+            --green-light: #299966;
+            --green-dark: #0e5232;
+            --green-rgb: 24, 112, 69;
+            --bg: #07120c;
+            --bg-light: #0d1d15;
+            --bg-mid: #132a1f;
+            --white: #FAFAFA;
+            --white-soft: #f5f5f5;
+            --gray: #9da8a2;
+            --gray-light: #e5e5e5;
+            --text-primary: #FAFAFA;
+            --text-secondary: #b8c5be;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--green);
+            outline-offset: 3px;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--green); border-radius: 3px; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .reveal {
+            opacity: 0; transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ── NAVBAR ── */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 1.2rem 3rem;
+            display: flex; align-items: center; justify-content: space-between;
+            transition: all 0.4s ease;
+            background: rgba(7, 18, 12, 0.92);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 2px 26px rgba(0,0,0,0.25);
+        }
+        .navbar.scrolled {
+            background: rgba(7, 18, 12, 0.95);
+            backdrop-filter: blur(16px);
+            padding: 0.8rem 3rem;
+            box-shadow: 0 2px 26px rgba(0,0,0,0.25);
+        }
+        .navbar-brand { text-decoration: none; display: flex; align-items: center; }
+        .navbar-brand img {
+            height: 60px; width: auto; transition: height 0.4s ease;
+            filter: drop-shadow(0 3px 10px rgba(0,0,0,0.35));
+        }
+        .navbar.scrolled .navbar-brand img { height: 48px; }
+
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+        .nav-links a {
+            color: #e6efe9; text-decoration: none; font-size: 0.85rem;
+            font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+            transition: color 0.3s; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0;
+            width: 0; height: 1px; background: var(--green); transition: width 0.3s;
+        }
+        .nav-links a:hover { color: var(--green-light); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--green), var(--green-dark));
+            color: var(--bg) !important; padding: 0.6rem 1.5rem; border-radius: 4px;
+            font-weight: 600 !important; letter-spacing: 1px !important;
+            transition: transform 0.3s, box-shadow 0.3s !important;
+        }
+        .nav-cta::after { display: none !important; }
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(var(--green-rgb), 0.35);
+            color: var(--bg) !important;
+        }
+
+        .menu-toggle {
+            display: none; flex-direction: column; gap: 5px; cursor: pointer;
+            z-index: 1001; background: none; border: none; padding: 5px;
+        }
+        .menu-toggle span { width: 28px; height: 2px; background: var(--green); transition: all 0.3s; display: block; }
+        .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 105vh; display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background: url('img/Fachada SuperBoxes.jpg') center 28% / cover no-repeat;
+        }
+        .hero-bg::after {
+            content: ''; position: absolute; inset: 0;
+            background: transparent;
+        }
+        .hero-content {
+            position: relative; text-align: center; max-width: 900px;
+            padding: 2.2rem 2.3rem;
+            background: linear-gradient(180deg, rgba(8,15,10,0.58) 0%, rgba(8,15,10,0.34) 60%, rgba(8,15,10,0.58) 100%);
+            border: 1px solid rgba(var(--green-rgb), 0.22);
+            border-radius: 18px;
+            backdrop-filter: blur(3px);
+            box-shadow: 0 12px 36px rgba(0,0,0,0.22);
+            text-shadow: 0 2px 14px rgba(0,0,0,0.55);
+        }
+        .hero-badge {
+            display: inline-block; padding: 0.5rem 1.5rem;
+            border: 1px solid rgba(var(--green-rgb), 0.45); border-radius: 50px;
+            font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+            background: rgba(8,15,10,0.45);
+            color: var(--green); margin-bottom: 2rem; animation: fadeIn 1s ease 0.2s both;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 900;
+            line-height: 1; margin-bottom: 1.5rem; animation: fadeUp 1s ease 0.4s both;
+        }
+        .hero h1 .green-text {
+            background: linear-gradient(135deg, var(--green-light), var(--green), var(--green-dark));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero p {
+            font-size: 1.15rem; color: #e8efe6; max-width: 550px;
+            margin: 0 auto 2.5rem; line-height: 1.7; font-weight: 300;
+            animation: fadeUp 1s ease 0.6s both;
+        }
+        .hero-buttons {
+            display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+            animation: fadeUp 1s ease 0.8s both;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--green), var(--green-dark));
+            color: #fff; padding: 1rem 2.5rem; border: none; border-radius: 4px;
+            font-size: 0.85rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer; transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(var(--green-rgb), 0.35); }
+        .btn-secondary {
+            background: transparent; color: var(--white); padding: 1rem 2.5rem;
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 4px;
+            font-size: 0.85rem; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer; transition: all 0.3s; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+        }
+        .btn-secondary:hover { border-color: var(--green); color: var(--green); }
+        .hero-scroll { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); animation: float 3s ease-in-out infinite; }
+        .hero-scroll svg { width: 24px; height: 24px; stroke: var(--green); opacity: 0.5; }
+
+        /* ── SECTIONS ── */
+        section { padding: 7rem 3rem; position: relative; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-label { font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; color: var(--green); margin-bottom: 1rem; display: block; }
+        .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; margin-bottom: 1rem; }
+        .section-subtitle { color: var(--text-secondary); font-size: 1.05rem; max-width: 600px; margin: 0 auto; line-height: 1.7; font-weight: 300; }
+
+        /* ── ABOUT ── */
+        .about { background: linear-gradient(180deg, var(--bg) 0%, var(--bg-light) 100%); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; max-width: 1200px; margin: 0 auto; align-items: center; }
+        .about-image { position: relative; height: 560px; border-radius: 8px; overflow: hidden; }
+        .about-image img { width: 100%; height: 100%; object-fit: cover; object-position: center center; border-radius: 8px; }
+        .about-image::after { content: ''; position: absolute; inset: 0; border: 1px solid rgba(var(--green-rgb), 0.15); border-radius: 8px; }
+        .about-text h3 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 1.5rem; line-height: 1.2; }
+        .about-text p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 1.5rem; font-weight: 300; }
+        .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid rgba(var(--green-rgb), 0.15); }
+        .stat-number { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--green); display: block; }
+        .stat-label { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-top: 0.3rem; }
+
+        /* ── BUSINESS ── */
+        .business { background: linear-gradient(180deg, var(--bg-light) 0%, var(--bg) 100%); }
+        .business-grid {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem;
+        }
+        .business-card {
+            background: rgba(8,18,12,0.62);
+            border: 1px solid rgba(var(--green-rgb), 0.14);
+            border-radius: 10px;
+            padding: 1.6rem;
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+        .business-card:hover { transform: translateY(-3px); border-color: rgba(var(--green-rgb), 0.3); }
+        .business-card h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            margin-bottom: 0.6rem;
+        }
+        .business-card p { color: var(--text-secondary); line-height: 1.7; font-weight: 300; }
+        .business-actions {
+            max-width: 1200px; margin: 2rem auto 0;
+            display: flex; gap: 1rem; flex-wrap: wrap;
+            justify-content: center;
+        }
+        .business-note {
+            max-width: 850px; margin: 1rem auto 0; text-align: center;
+            color: #dce8e1; line-height: 1.7; font-weight: 300;
+        }
+
+        /* ── SECTOR SECTIONS ── */
+        .sector-section { position: relative; }
+        .sector-section:nth-child(odd) { background: var(--bg-light); }
+        .sector-section:nth-child(even) { background: var(--bg); }
+
+        .sector-banner {
+            position: relative; height: 520px; overflow: hidden;
+            margin: -7rem -3rem 4rem -3rem;
+        }
+        .sector-banner img { width: 100%; height: 100%; object-fit: cover; object-position: center center; }
+        .sector-banner::after {
+            content: ''; position: absolute; inset: 0;
+            background: transparent;
+        }
+        .sector-banner-text {
+            position: absolute; bottom: 2rem; left: 3rem; z-index: 1;
+            background: linear-gradient(135deg, rgba(8,15,10,0.72), rgba(8,15,10,0.42));
+            border: 1px solid rgba(var(--green-rgb), 0.22);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            max-width: min(90%, 560px);
+            text-shadow: 0 2px 12px rgba(0,0,0,0.45);
+        }
+        .sector-banner-text h2 {
+            font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700;
+        }
+        .sector-banner-text p { color: #dbe6d7; font-size: 1rem; margin-top: 0.5rem; }
+
+        .stores-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem; max-width: 1400px; margin: 0 auto;
+        }
+
+        .store-card {
+            background: linear-gradient(135deg, var(--bg-mid), rgba(26,46,30,0.5));
+            border: 1px solid rgba(var(--green-rgb), 0.08); border-radius: 8px;
+            padding: 1.5rem; transition: all 0.3s; position: relative;
+        }
+        .store-card:hover {
+            border-color: rgba(var(--green-rgb), 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+        }
+        .store-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem; }
+        .store-number {
+            font-size: 0.7rem; color: var(--green); letter-spacing: 1px;
+            background: rgba(var(--green-rgb), 0.1); padding: 0.2rem 0.6rem; border-radius: 4px;
+            font-weight: 600;
+        }
+        .store-card h4 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.6rem; line-height: 1.3; }
+        .store-card .store-handle { color: var(--green); font-size: 0.8rem; margin-bottom: 1rem; display: block; }
+
+        .store-buttons { display: flex; gap: 0.5rem; }
+        .store-btn {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            padding: 0.45rem 0.9rem; border-radius: 4px; font-size: 0.75rem;
+            font-weight: 500; text-decoration: none; transition: all 0.3s;
+            letter-spacing: 0.5px;
+        }
+        .store-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+        .store-btn-ig {
+            background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+            color: #fff;
+        }
+        .store-btn-ig:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(131,58,180,0.3); }
+        .store-btn-wa {
+            background: #25D366; color: #fff;
+        }
+        .store-btn-wa:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,211,102,0.3); }
+        .store-btn-wa svg { fill: #fff; }
+
+        /* ── SERVICES ── */
+        .services { background: linear-gradient(180deg, var(--bg) 0%, var(--bg-light) 100%); }
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1000px; margin: 0 auto; }
+        .service-card {
+            text-align: center; padding: 3rem 2rem;
+            border: 1px solid rgba(var(--green-rgb), 0.08); border-radius: 8px;
+            background: rgba(12,26,14,0.5); transition: all 0.3s;
+        }
+        .service-card:hover { border-color: rgba(var(--green-rgb), 0.2); background: rgba(26,46,30,0.5); }
+        .service-card svg { width: 40px; height: 40px; stroke: var(--green); margin-bottom: 1.5rem; }
+        .service-card h4 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 0.8rem; }
+        .service-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; font-weight: 300; }
+
+        /* ── SERVICES PHOTO ── */
+        .services-photo {
+            max-width: 600px; margin: 3rem auto 0; border-radius: 8px; overflow: hidden;
+            border: 1px solid rgba(var(--green-rgb), 0.1);
+        }
+        .services-photo img { width: 100%; height: auto; display: block; }
+
+        /* ── NEWS ── */
+        .news { background: linear-gradient(180deg, var(--bg-light) 0%, var(--bg) 100%); }
+        .news-grid {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+        }
+        .news-card {
+            border: 1px solid rgba(var(--green-rgb), 0.12); border-radius: 10px;
+            background: rgba(12,26,14,0.58); padding: 1.8rem;
+            display: flex; flex-direction: column; gap: 1rem;
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+        .news-card:hover { transform: translateY(-3px); border-color: rgba(var(--green-rgb), 0.26); }
+        .news-tag {
+            width: fit-content; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase;
+            background: rgba(var(--green-rgb), 0.14); color: var(--green);
+            padding: 0.3rem 0.65rem; border-radius: 999px; font-weight: 600;
+        }
+        .news-card h4 { font-family: 'Playfair Display', serif; font-size: 1.3rem; line-height: 1.25; }
+        .news-card p { color: var(--text-secondary); line-height: 1.7; font-weight: 300; flex: 1; }
+        .news-link {
+            color: var(--green); text-decoration: none; font-weight: 600;
+            letter-spacing: 0.4px; font-size: 0.9rem;
+        }
+        .news-link:hover { opacity: 0.86; }
+
+        /* ── CONTACT FORM ── */
+        .form-section { background: linear-gradient(180deg, var(--bg) 0%, var(--bg-light) 100%); }
+        .form-shell {
+            max-width: 980px; margin: 0 auto; padding: 2.2rem;
+            border: 1px solid rgba(var(--green-rgb), 0.12); border-radius: 12px;
+            background: rgba(12,26,14,0.58);
+        }
+        .contact-form {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        .form-field { display: flex; flex-direction: column; gap: 0.45rem; }
+        .form-field label {
+            font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;
+            color: var(--text-secondary); font-weight: 600;
+        }
+        .form-field input,
+        .form-field textarea {
+            width: 100%; background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(var(--green-rgb), 0.22); border-radius: 8px;
+            color: var(--text-primary); padding: 0.9rem 1rem;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .form-field textarea { min-height: 150px; resize: vertical; }
+        .form-field input::placeholder,
+        .form-field textarea::placeholder { color: rgba(176,176,176,0.85); }
+        .form-full { grid-column: 1 / -1; }
+        .form-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .form-note { color: var(--text-secondary); font-size: 0.9rem; font-weight: 300; }
+
+        /* ── LOCATION ── */
+        .location { background: var(--bg-light); }
+        .location-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1200px; margin: 0 auto; align-items: center; }
+        .location-map { height: 450px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(var(--green-rgb), 0.1); }
+        .location-map iframe { width: 100%; height: 100%; border: 0; }
+        .location-info h3 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 2rem; }
+        .info-item { display: flex; align-items: flex-start; gap: 1.2rem; margin-bottom: 2rem; }
+        .info-icon { width: 44px; height: 44px; min-width: 44px; border-radius: 8px; background: rgba(var(--green-rgb), 0.08); display: flex; align-items: center; justify-content: center; }
+        .info-icon svg { width: 20px; height: 20px; stroke: var(--green); }
+        .info-item h4 { font-size: 0.95rem; margin-bottom: 0.3rem; }
+        .info-item p { color: var(--text-secondary); font-size: 0.9rem; font-weight: 300; }
+        .info-item a { color: var(--green); text-decoration: none; font-weight: 500; transition: opacity 0.3s; }
+        .info-item a:hover { opacity: 0.8; }
+
+        .social-links { display: flex; gap: 1rem; margin-top: 2rem; }
+        .social-link {
+            width: 44px; height: 44px; border-radius: 8px;
+            border: 1px solid rgba(var(--green-rgb), 0.15);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s; text-decoration: none;
+        }
+        .social-link:hover { border-color: var(--green); background: rgba(var(--green-rgb), 0.08); }
+        .social-link svg { width: 18px; height: 18px; fill: var(--green); }
+
+        /* ── CTA ── */
+        .cta-section { background: var(--bg); text-align: center; padding: 6rem 3rem; position: relative; overflow: hidden; }
+        .cta-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(var(--green-rgb), 0.06) 0%, transparent 60%); }
+        .cta-content { position: relative; }
+        .cta-content h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.8rem); margin-bottom: 1rem; }
+        .cta-content p { color: var(--text-secondary); margin-bottom: 2rem; font-weight: 300; font-size: 1.05rem; }
+
+        /* ── FOOTER ── */
+        .footer { background: var(--bg); border-top: 1px solid rgba(var(--green-rgb), 0.08); padding: 3rem; }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .footer-brand { font-family: 'Playfair Display', serif; color: var(--green); font-size: 1.1rem; font-weight: 600; letter-spacing: 2px; }
+        .footer-logo {
+            width: 200px; height: auto;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+        }
+        .footer-meta {
+            display: flex; flex-direction: column; align-items: flex-end; gap: 0.35rem;
+        }
+        .footer-copy { color: var(--gray); font-size: 0.8rem; }
+        .footer-credit { color: var(--gray); font-size: 0.8rem; }
+        .footer-links { display: flex; gap: 2rem; }
+        .footer-links a { color: var(--gray); text-decoration: none; font-size: 0.8rem; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--green); }
+
+        /* ── WHATSAPP FLOAT ── */
+        .whatsapp-float {
+            position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+            width: 56px; height: 56px; background: #25D366; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+            transition: transform 0.3s, box-shadow 0.3s; text-decoration: none;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(37,211,102,0.4); }
+        .whatsapp-float svg { width: 28px; height: 28px; fill: white; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .stores-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .navbar { padding: 1rem 1.5rem; }
+            .navbar.scrolled { padding: 0.8rem 1.5rem; }
+            .menu-toggle { display: flex; }
+            .nav-links {
+                position: fixed; top: 0; right: -100%; width: 280px; height: 100vh;
+                background: var(--bg-light); flex-direction: column;
+                padding: 5rem 2rem 2rem; gap: 1.5rem; transition: right 0.4s ease;
+                border-left: 1px solid rgba(var(--green-rgb), 0.1);
+            }
+            .nav-links.open { right: 0; }
+            section { padding: 4rem 1.5rem; }
+            .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .about-image { height: 420px; }
+            .business-grid { grid-template-columns: 1fr; }
+            .stores-grid { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: 1fr; }
+            .news-grid { grid-template-columns: 1fr; }
+            .contact-form { grid-template-columns: 1fr; }
+            .location-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .location-map { height: 300px; }
+            .about-stats { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+            .stat-number { font-size: 1.8rem; }
+            .footer-content { flex-direction: column; text-align: center; }
+            .footer-meta { align-items: center; }
+            .footer-logo { width: 180px; }
+            .hero { min-height: 100vh; }
+            .hero-bg { background-position: center 24%; }
+            .hero-content { padding: 1.5rem 1.2rem; border-radius: 14px; }
+            .sector-banner { height: 360px; margin: -4rem -1.5rem 3rem -1.5rem; }
+            .sector-banner-text { left: 1.5rem; padding: 0.8rem 1rem; max-width: calc(100% - 3rem); }
+        }
+        @media (max-width: 480px) {
+            .hero-bg { background-position: center 20%; }
+            .about-image { height: 360px; }
+            .sector-banner { height: 300px; }
+            .form-shell { padding: 1.4rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+            .store-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="navbar-brand">
+            <img src="img/logo-nova-site-transparent.png" alt="Logo Super Boxes 100">
+        </a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#negocios">Negócios</a></li>
+            <li><a href="#setor-a">Lojas</a></li>
+            <li><a href="#servicos">Serviços</a></li>
+            <li><a href="#noticias">Novidades</a></li>
+            <li><a href="#localizacao">Localização</a></li>
+            <li><a href="#formulario" class="nav-cta">Contato</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Centro de Fortaleza</div>
+            <h1>A moda que <br><span class="green-text">você procura</span></h1>
+            <p>Mais de 80 lojas no coração de Fortaleza para atacado, varejo e quem quer empreender no comércio de moda.</p>
+            <div class="hero-buttons">
+                <a href="https://wa.me/558530445749" target="_blank" class="btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    Fale conosco
+                </a>
+                <a href="#setor-a" class="btn-secondary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    Conheça nossas lojas
+                </a>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="sobre">
+        <div class="about-grid">
+            <div class="about-image reveal">
+                    <img src="img/Fachada SuperBoxes.jpg" alt="Fachada Super Boxes 100" loading="lazy" decoding="async">
+            </div>
+            <div class="about-text">
+                <span class="section-label reveal">Sobre nós</span>
+                <h3 class="reveal reveal-delay-1">Um shopping pensado <br>para você</h3>
+                <p class="reveal reveal-delay-2">
+                    Desde setembro de 2011, o Super Boxes 100 oferece uma experiência de compras completa no Centro de Fortaleza.
+                </p>
+                <p class="reveal reveal-delay-3">
+                    Com localização privilegiada na Rua José Avelino, o shopping reúne as melhores lojas de moda, acessórios e muito mais em um ambiente moderno, confortável e seguro para toda a família.
+                </p>
+                <div class="about-stats reveal reveal-delay-4">
+                    <div><span class="stat-number">80+</span><span class="stat-label">Lojas</span></div>
+                    <div><span class="stat-number">4</span><span class="stat-label">Setores</span></div>
+                    <div><span class="stat-number">14+</span><span class="stat-label">Anos</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BUSINESS -->
+    <section class="business" id="negocios">
+        <div class="section-header">
+            <span class="section-label reveal">Atacado e Varejo</span>
+            <h2 class="section-title reveal reveal-delay-1">Compre, revenda ou monte sua loja</h2>
+            <p class="section-subtitle reveal reveal-delay-2">O Super Boxes 100 foi feito para quem quer comprar as melhores marcas, revender com margem e também para quem quer abrir seu próprio ponto.</p>
+        </div>
+        <div class="business-grid">
+            <article class="business-card reveal">
+                <h4>Comprar no varejo</h4>
+                <p>Encontre variedade, preço competitivo e as melhores marcas para compras do dia a dia.</p>
+            </article>
+            <article class="business-card reveal reveal-delay-1">
+                <h4>Revender no atacado</h4>
+                <p>Compre em volume com condições ideais para abastecer seu negócio e aumentar seu faturamento.</p>
+            </article>
+            <article class="business-card reveal reveal-delay-2">
+                <h4>Alugar loja e empreender</h4>
+                <p>Quer montar seu negócio no Centro de Fortaleza? O Super Boxes 100 oferece estrutura e fluxo para apoiar seu crescimento.</p>
+            </article>
+        </div>
+        <div class="business-actions reveal reveal-delay-3">
+            <a href="https://wa.me/558530445749?text=Ol%C3%A1%2C%20quero%20informa%C3%A7%C3%B5es%20sobre%20aluguel%20de%20loja%20no%20Super%20Boxes%20100." target="_blank" class="btn-primary">Quero alugar minha loja</a>
+            <a href="https://wa.me/558530445749?text=Ol%C3%A1%2C%20quero%20comprar%20no%20atacado%20para%20revender.%20Pode%20me%20ajudar%3F" target="_blank" class="btn-secondary">Quero comprar para revender</a>
+        </div>
+        <p class="business-note reveal reveal-delay-4">Fale com a equipe e receba orientação rápida para compra no atacado, varejo ou abertura da sua loja.</p>
+    </section>
+
+    <!-- ════════════════ SETOR A ════════════════ -->
+    <section class="sector-section" id="setor-a">
+        <div class="sector-banner">
+            <img src="img/Setor A.jpg" alt="Setor A" loading="lazy" decoding="async">
+            <div class="sector-banner-text">
+                <h2>Setor A</h2>
+                <p>Boutiques, moda multimarcas e moda praia</p>
+            </div>
+        </div>
+        <div class="stores-grid">
+            <div class="store-card reveal">
+                <div class="store-card-header"><span class="store-number">LOJA 01</span></div>
+                <h4>N&A Fashion</h4>
+                <span class="store-handle">@neafashion</span>
+                <div class="store-buttons">
+                    <a href="https://instagram.com/neafashion" target="_blank" class="store-btn store-btn-ig">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+                        Instagram
+                    </a>
+                    <a href="https://wa.me/5585986850220" target="_blank" class="store-btn store-btn-wa">
+                        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="store-card reveal reveal-delay-1">
+                <div class="store-card-header"><span class="store-number">LOJA 02</span></div>
+                <h4>Be One Moda Feminina</h4>
+                <span class="store-handle">@beonemodas</span>
+                <div class="store-buttons">
+                    <a href="https://instagram.com/beonemodas" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a>
+                    <a href="https://wa.me/5585997430112" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a>
+                </div>
+            </div>
+            <div class="store-card reveal reveal-delay-2">
+                <div class="store-card-header"><span class="store-number">LOJAS 03–05</span></div>
+                <h4>Bonequita Jeans</h4>
+                <span class="store-handle">@bonequitajeans</span>
+                <div class="store-buttons">
+                    <a href="https://instagram.com/bonequitajeans" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a>
+                    <a href="https://wa.me/5585999063636" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a>
+                </div>
+            </div>
+            <div class="store-card reveal">
+                <div class="store-card-header"><span class="store-number">LOJA 06</span></div>
+                <h4>JosyBelle</h4>
+                <span class="store-handle">@lojajosybelle</span>
+                <div class="store-buttons">
+                    <a href="https://instagram.com/lojajosybelle" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a>
+                    <a href="https://wa.me/5585998608621" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a>
+                </div>
+            </div>
+            <div class="store-card reveal reveal-delay-1">
+                <div class="store-card-header"><span class="store-number">LOJAS 07–08</span></div>
+                <h4>Balli Beach</h4>
+                <span class="store-handle">@balli.beach</span>
+                <div class="store-buttons">
+                    <a href="https://instagram.com/balli.beach" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a>
+                    <a href="https://wa.me/5585996321583" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a>
+                </div>
+            </div>
+            <div class="store-card reveal reveal-delay-2">
+                <div class="store-card-header"><span class="store-number">LOJAS 09–10</span></div>
+                <h4>Levanju Moda Feminina</h4>
+                <span class="store-handle">@levanjumoda</span>
+                <div class="store-buttons">
+                    <a href="https://instagram.com/levanjumoda" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a>
+                    <a href="https://wa.me/5585987340364" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a>
+                </div>
+            </div>
+            <div class="store-card reveal">
+                <div class="store-card-header"><span class="store-number">LOJA 11</span></div>
+                <h4>Donna Fashion</h4>
+                <span class="store-handle">@donnafashionmoda</span>
+                <div class="store-buttons">
+                    <a href="https://instagram.com/donnafashionmoda" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a>
+                    <a href="https://wa.me/5585992454147" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a>
+                </div>
+            </div>
+            <div class="store-card reveal reveal-delay-1">
+                <div class="store-card-header"><span class="store-number">LOJAS 12–13</span></div>
+                <h4>Donna Chiquetosa</h4>
+                <span class="store-handle">@d.chiquetosa_</span>
+                <div class="store-buttons">
+                    <a href="https://instagram.com/d.chiquetosa_" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a>
+                    <a href="https://wa.me/5585991563151" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a>
+                </div>
+            </div>
+            <div class="store-card reveal reveal-delay-2">
+                <div class="store-card-header"><span class="store-number">LOJAS 14–16</span></div>
+                <h4>Bonekita</h4>
+                <span class="store-handle">@bonekita</span>
+                <div class="store-buttons">
+                    <a href="https://instagram.com/bonekita" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a>
+                    <a href="https://wa.me/5585981404685" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a>
+                </div>
+            </div>
+            <div class="store-card reveal">
+                <div class="store-card-header"><span class="store-number">LOJAS 17–18</span></div>
+                <h4>Emily.com</h4>
+                <span class="store-handle">@emily.com.fashion</span>
+                <div class="store-buttons">
+                    <a href="https://instagram.com/emily.com.fashion" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a>
+                    <a href="https://wa.me/5585985688288" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════════════ SETOR B ════════════════ -->
+    <section class="sector-section" id="setor-b">
+        <div class="sector-banner">
+            <img src="img/Setor B.jpg" alt="Setor B" loading="lazy" decoding="async">
+            <div class="sector-banner-text">
+                <h2>Setor B</h2>
+                <p>Jeans, moda feminina, moda plus size e acessórios</p>
+            </div>
+        </div>
+        <div class="stores-grid">
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJA 19</span></div><h4>UseRaybelle</h4><span class="store-handle">@useraybelle</span><div class="store-buttons"><a href="https://instagram.com/useraybelle" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585992835136" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJAS 20–21</span></div><h4>Coral Chic</h4><span class="store-handle">@coral.chicoficial</span><div class="store-buttons"><a href="https://instagram.com/coral.chicoficial" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585997957962" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-2"><div class="store-card-header"><span class="store-number">LOJAS 22–23</span></div><h4>Seja Exclusiva</h4><span class="store-handle">@seja.exclusiva</span><div class="store-buttons"><a href="https://instagram.com/seja.exclusiva" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585985626626" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJAS 24–25</span></div><h4>Stylo Play / Play Jeans</h4><span class="store-handle">@styloplay</span><div class="store-buttons"><a href="https://instagram.com/styloplay" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585987228963" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJAS 26–27</span></div><h4>Snitram Jeans</h4><span class="store-handle">@snitramjeans</span><div class="store-buttons"><a href="https://instagram.com/snitramjeans" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585985224148" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-2"><div class="store-card-header"><span class="store-number">LOJA 28</span></div><h4>Rosa Brasil</h4><span class="store-handle">@_rosabrasil</span><div class="store-buttons"><a href="https://instagram.com/_rosabrasil" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/558533009676" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJA 29</span></div><h4>Delicada Calçados</h4><span class="store-handle">&nbsp;</span><div class="store-buttons"><a href="https://wa.me/5585999037822" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJAS 30–31</span></div><h4>Mazielly Estilo e Luxo</h4><span class="store-handle">@maziellyestiloluxo</span><div class="store-buttons"><a href="https://instagram.com/maziellyestiloluxo" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585986317871" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-2"><div class="store-card-header"><span class="store-number">LOJA 32</span></div><h4>Bem Me Quero</h4><span class="store-handle">@bmquerops</span><div class="store-buttons"><a href="https://instagram.com/bmquerops" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585981786671" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJA 35</span></div><h4>Morena Rivolta</h4><span class="store-handle">@morenarivolta</span><div class="store-buttons"><a href="https://instagram.com/morenarivolta" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585986976800" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJA 36</span></div><h4>Sup Denim</h4><span class="store-handle">@supdenim</span><div class="store-buttons"><a href="https://instagram.com/supdenim" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585985243704" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-2"><div class="store-card-header"><span class="store-number">LOJAS 37–38</span></div><h4>Lima Limão</h4><span class="store-handle">@use_limalimao</span><div class="store-buttons"><a href="https://instagram.com/use_limalimao" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585999868931" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJAS 39–40</span></div><h4>Chica Palito</h4><span class="store-handle">@chica_palito</span><div class="store-buttons"><a href="https://instagram.com/chica_palito" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585988999785" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJA 41</span></div><h4>Sophia Kids</h4><span class="store-handle">@sophia.kids_</span><div class="store-buttons"><a href="https://instagram.com/sophia.kids_" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585986746904" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-2"><div class="store-card-header"><span class="store-number">LOJAS 42–43</span></div><h4>Zarpy Moda Feminina</h4><span class="store-handle">@zarpyoficial</span><div class="store-buttons"><a href="https://instagram.com/zarpyoficial" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585988710436" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJAS 44–45</span></div><h4>Focus Moda</h4><span class="store-handle">@focusmodaoficial</span><div class="store-buttons"><a href="https://instagram.com/focusmodaoficial" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585987303535" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJAS 46–47</span></div><h4>S27 Jeans</h4><span class="store-handle">@s27jeans</span><div class="store-buttons"><a href="https://instagram.com/s27jeans" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585997155572" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+        </div>
+    </section>
+
+    <!-- ════════════════ SETOR C ════════════════ -->
+    <section class="sector-section" id="setor-c">
+        <div class="sector-banner">
+            <img src="img/Setor C Parte 1.jpg" alt="Setor C" loading="lazy" decoding="async">
+            <div class="sector-banner-text">
+                <h2>Setor C</h2>
+                <p>Moda feminina, masculina, infantil e eletronicos</p>
+            </div>
+        </div>
+        <div class="stores-grid">
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJA 50</span></div><h4>Miss Store</h4><span class="store-handle">@missstore</span><div class="store-buttons"><a href="https://instagram.com/missstore" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585986728525" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJAS 51–58</span></div><h4>Menina Linda</h4><span class="store-handle">@meninalinda</span><div class="store-buttons"><a href="https://instagram.com/meninalinda" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a></div></div>
+            <div class="store-card reveal reveal-delay-2"><div class="store-card-header"><span class="store-number">LOJA 52</span></div><h4>Lima Limão</h4><span class="store-handle">@use_limalimao</span><div class="store-buttons"><a href="https://instagram.com/use_limalimao" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585999868931" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJA 54</span></div><h4>Pituquinha Kids</h4><span class="store-handle">@pituquinhakids</span><div class="store-buttons"><a href="https://instagram.com/pituquinhakids" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585997829739" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJAS 55–56</span></div><h4>Leyanne Fashion</h4><span class="store-handle">@leyannefashion</span><div class="store-buttons"><a href="https://instagram.com/leyannefashion" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585996070704" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-2"><div class="store-card-header"><span class="store-number">LOJAS 57–58</span></div><h4>Nyck Jeans</h4><span class="store-handle">@nyckjeans</span><div class="store-buttons"><a href="https://instagram.com/nyckjeans" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585996381346" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJA 59</span></div><h4>Busk Kids</h4><span class="store-handle">@buskkids</span><div class="store-buttons"><a href="https://instagram.com/buskkids" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585986611558" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJA 60</span></div><h4>Anjobim</h4><span class="store-handle">@anjobimconceito</span><div class="store-buttons"><a href="https://instagram.com/anjobimconceito" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585997789945" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-2"><div class="store-card-header"><span class="store-number">LOJAS 61–62</span></div><h4>Lys Marry</h4><span class="store-handle">@lysmarry</span><div class="store-buttons"><a href="https://instagram.com/lysmarry" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585992702523" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJA 63</span></div><h4>Evest Moda Feminina</h4><span class="store-handle">@evestmodafeminina</span><div class="store-buttons"><a href="https://instagram.com/evestmodafeminina" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585992954466" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJA 64</span></div><h4>JB-ELI</h4><span class="store-handle">@jjb.eli</span><div class="store-buttons"><a href="https://instagram.com/jjb.eli" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585996250405" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-2"><div class="store-card-header"><span class="store-number">LOJA 65</span></div><h4>All Blue</h4><span class="store-handle">@allbluephoto</span><div class="store-buttons"><a href="https://instagram.com/allbluephoto" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585998689094" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJA 66</span></div><h4>Sael Charme e Estilo</h4><span class="store-handle">@sael_atacado</span><div class="store-buttons"><a href="https://instagram.com/sael_atacado" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585987003433" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJA 67</span></div><h4>Comentários Moda</h4><span class="store-handle">@comentariosmodas</span><div class="store-buttons"><a href="https://instagram.com/comentariosmodas" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585988190088" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-2"><div class="store-card-header"><span class="store-number">LOJA 68</span></div><h4>D'saias</h4><span class="store-handle">@dsaias_</span><div class="store-buttons"><a href="https://instagram.com/dsaias_" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585982026634" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJA 70</span></div><h4>I Love Tess</h4><span class="store-handle">@ilovetess</span><div class="store-buttons"><a href="https://instagram.com/ilovetess" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585991103569" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJAS 71–73</span></div><h4>Flor de Kassia</h4><span class="store-handle">@flor_de_kassia</span><div class="store-buttons"><a href="https://instagram.com/flor_de_kassia" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585986343089" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-2"><div class="store-card-header"><span class="store-number">LOJAS 74–75</span></div><h4>Milly Flor</h4><span class="store-handle">@millyflor_atacado</span><div class="store-buttons"><a href="https://instagram.com/millyflor_atacado" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5586986808973" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJAS 76–77</span></div><h4>RR New Love / HJA Style</h4><span class="store-handle">@userrnewlove · @h.ja_style</span><div class="store-buttons"><a href="https://instagram.com/userrnewlove" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585985269032" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJAS 78–79</span></div><h4>Marks Fort Jeans</h4><span class="store-handle">@marksfortjeans</span><div class="store-buttons"><a href="https://instagram.com/marksfortjeans" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585985491680" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+        </div>
+    </section>
+
+    <!-- ════════════════ PRAÇA CENTRAL ════════════════ -->
+    <section class="sector-section" id="praca-central">
+        <div class="sector-banner">
+            <img src="img/Praça Central.jpg" alt="Praça Central" loading="lazy" decoding="async">
+            <div class="sector-banner-text">
+                <h2>Praça Central</h2>
+                <p>Espaço diversificado com moda e serviços</p>
+            </div>
+        </div>
+        <div class="stores-grid">
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJA 34</span></div><h4>Luxúria de Beatriz</h4><span class="store-handle">@luxuriadebeatriz_oficial</span><div class="store-buttons"><a href="https://instagram.com/luxuriadebeatriz_oficial" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585994172200" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJA 80</span></div><h4>Bella Jô</h4><span class="store-handle">@bellajo</span><div class="store-buttons"><a href="https://instagram.com/bellajo" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585988411123" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-2"><div class="store-card-header"><span class="store-number">LOJA 81</span></div><h4>Chica Pimenta</h4><span class="store-handle">@chica.pimenta_</span><div class="store-buttons"><a href="https://instagram.com/chica.pimenta_" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585997849911" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJAS 82–83</span></div><h4>+Q Limpo</h4><span class="store-handle">@maisquelimpo</span><div class="store-buttons"><a href="https://instagram.com/maisquelimpo" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585988841209" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJA 84</span></div><h4>Lovme Brand</h4><span class="store-handle">@lovmebrand</span><div class="store-buttons"><a href="https://instagram.com/lovmebrand" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585988911116" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-2"><div class="store-card-header"><span class="store-number">LOJA 85</span></div><h4>Miss Bonnita</h4><span class="store-handle">@missbonnita_</span><div class="store-buttons"><a href="https://instagram.com/missbonnita_" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585982081601" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal"><div class="store-card-header"><span class="store-number">LOJA 86</span></div><h4>KL Jeans</h4><span class="store-handle">@kl.jeans</span><div class="store-buttons"><a href="https://instagram.com/kl.jeans" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585997669201" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-1"><div class="store-card-header"><span class="store-number">LOJA 87</span></div><h4>Cliff Jeans</h4><span class="store-handle">@cliffjeanswear</span><div class="store-buttons"><a href="https://instagram.com/cliffjeanswear" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585988984974" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+            <div class="store-card reveal reveal-delay-2"><div class="store-card-header"><span class="store-number">LOJA 88</span></div><h4>Kilinda</h4><span class="store-handle">@oficialkilinda</span><div class="store-buttons"><a href="https://instagram.com/oficialkilinda" target="_blank" class="store-btn store-btn-ig"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5"/></svg> Instagram</a><a href="https://wa.me/5585997565453" target="_blank" class="store-btn store-btn-wa"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg> WhatsApp</a></div></div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="servicos">
+        <div class="section-header">
+            <span class="section-label reveal">Comodidades</span>
+            <h2 class="section-title reveal reveal-delay-1">Serviços para você</h2>
+            <p class="section-subtitle reveal reveal-delay-2">Tudo pensado para tornar sua visita mais confortável e prática.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card reveal">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+                <h4>Wi-Fi gratuito</h4>
+                <p>Internet de alta velocidade em todas as áreas do shopping.</p>
+            </div>
+            <div class="service-card reveal reveal-delay-1">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+                <h4>Localização central</h4>
+                <p>Fácil acesso no coração do Centro de Fortaleza, com integração Waze e Uber.</p>
+            </div>
+            <div class="service-card reveal reveal-delay-2">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                <h4>Atendimento personalizado</h4>
+                <p>Equipe preparada para ajudar você a encontrar exatamente o que precisa.</p>
+            </div>
+        </div>
+        <div class="services-photo reveal">
+            <img src="img/Banheiros.jpg" alt="Estrutura Super Boxes 100" loading="lazy" decoding="async">
+        </div>
+    </section>
+
+    <!-- NEWS -->
+    <section class="news" id="noticias">
+        <div class="section-header">
+            <span class="section-label reveal">Atualizações</span>
+            <h2 class="section-title reveal reveal-delay-1">Novidades</h2>
+            <p class="section-subtitle reveal reveal-delay-2">Acompanhe as últimas novidades, eventos e destaques do Super Boxes 100.</p>
+        </div>
+        <div class="news-grid">
+            <article class="news-card reveal">
+                <span class="news-tag">Instagram</span>
+                <h4>Novidades em tempo real</h4>
+                <p>Veja lançamentos de lojas, tendências e bastidores direto no perfil oficial.</p>
+                <a href="https://www.instagram.com/superboxes100_oficial" target="_blank" class="news-link">Acessar perfil</a>
+            </article>
+            <article class="news-card reveal reveal-delay-1">
+                <span class="news-tag">Facebook</span>
+                <h4>Eventos e comunicados</h4>
+                <p>Fique por dentro de ações especiais, campanhas e avisos importantes do shopping.</p>
+                <a href="https://www.facebook.com/superboxes100" target="_blank" class="news-link">Ver atualizações</a>
+            </article>
+        </div>
+    </section>
+
+    <!-- CONTACT FORM -->
+    <section class="form-section" id="formulario">
+        <div id="contato"></div>
+        <div class="section-header">
+            <span class="section-label reveal">Contato</span>
+            <h2 class="section-title reveal reveal-delay-1">Fale com a nossa equipe</h2>
+            <p class="section-subtitle reveal reveal-delay-2">Preencha o formulário e enviamos seu atendimento pelo WhatsApp.</p>
+        </div>
+        <div class="form-shell reveal reveal-delay-1">
+            <form class="contact-form" id="quickContactForm">
+                <div class="form-field">
+                    <label for="nome">Nome</label>
+                    <input id="nome" name="nome" type="text" placeholder="Seu nome" required>
+                </div>
+                <div class="form-field">
+                    <label for="email">E-mail</label>
+                    <input id="email" name="email" type="email" placeholder="seuemail@exemplo.com" required>
+                </div>
+                <div class="form-field form-full">
+                    <label for="telefone">WhatsApp</label>
+                    <input id="telefone" name="telefone" type="tel" placeholder="(85) 99999-9999" required>
+                </div>
+                <div class="form-field form-full">
+                    <label for="mensagem">Mensagem</label>
+                    <textarea id="mensagem" name="mensagem" placeholder="Digite sua mensagem" required></textarea>
+                </div>
+                <div class="form-actions form-full">
+                    <button type="submit" class="btn-primary">Enviar</button>
+                    <span class="form-note">Você será redirecionado para o WhatsApp oficial do Super Boxes 100.</span>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- LOCATION / CONTACT -->
+    <section class="location" id="localizacao">
+        <div class="section-header">
+            <span class="section-label reveal">Onde Estamos</span>
+            <h2 class="section-title reveal reveal-delay-1">Venha nos visitar</h2>
+        </div>
+        <div class="location-grid">
+            <div class="location-map reveal">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.338!2d-38.5200!3d-3.7250!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7c74861e5d7f06d%3A0x0!2sRua+Jos%C3%A9+Avelino%2C+100+-+Centro%2C+Fortaleza+-+CE!5e0!3m2!1spt-BR!2sbr!4v1"
+                    allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                    title="Localização Super Boxes 100"></iframe>
+            </div>
+            <div class="location-info" id="info-contato">
+                <h3 class="reveal">Super Boxes 100</h3>
+                <div class="info-item reveal reveal-delay-1">
+                    <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                    <div><h4>Endereço</h4><p>Rua José Avelino, 100 – Centro<br>Fortaleza – CE</p></div>
+                </div>
+                <div class="info-item reveal reveal-delay-2">
+                    <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                    <div><h4>Telefone</h4><p><a href="tel:+558530445749">(85) 3044-5749</a></p></div>
+                </div>
+                <div class="info-item reveal reveal-delay-3">
+                    <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+                    <div><h4>Horário de funcionamento</h4><p>Segunda a sábado: 8h às 17h<br>Domingos e feriados: consulte</p></div>
+                </div>
+                <div class="social-links reveal reveal-delay-4">
+                    <a href="https://www.facebook.com/superboxes100" target="_blank" class="social-link" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+                    <a href="https://www.instagram.com/superboxes100_oficial" target="_blank" class="social-link" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="var(--green)" stroke-width="1.5"/><circle cx="12" cy="12" r="5" fill="none" stroke="var(--green)" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.5" fill="var(--green)" stroke="none"/></svg></a>
+                    <a href="https://wa.me/558530445749" target="_blank" class="social-link" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z" fill="none" stroke="var(--green)" stroke-width="1.5"/></svg></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="reveal">Pronto para <span style="color: var(--green)">comprar ou revender</span> com o Super Boxes 100?</h2>
+            <p class="reveal reveal-delay-1">Compre para uso próprio, abasteça sua revenda no atacado ou fale com a equipe para abrir a sua loja.</p>
+            <div class="reveal reveal-delay-2">
+                <a href="https://wa.me/558530445749?text=Ol%C3%A1%2C%20quero%20comprar%2C%20revender%20ou%20abrir%20uma%20loja%20no%20Super%20Boxes%20100." target="_blank" class="btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    Falar no WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <img src="img/logo-nova-site-transparent.png" alt="Logo Super Boxes 100" class="footer-logo">
+            <div class="footer-links">
+                <a href="#sobre">Sobre</a>
+                <a href="#negocios">Negócios</a>
+                <a href="#setor-a">Lojas</a>
+                <a href="#servicos">Serviços</a>
+                <a href="#noticias">Novidades</a>
+                <a href="#formulario">Contato</a>
+            </div>
+            <div class="footer-meta">
+                <span class="footer-copy">&copy; 2026 Super Boxes 100. Todos os direitos reservados.</span>
+                <span class="footer-credit">Desenvolvido por Athos Performance Marketing</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WHATSAPP FLOATING -->
+    <a href="https://wa.me/558530445749" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.264-1.227l-.306-.184-2.87.852.804-2.94-.202-.32A8 8 0 1112 20z"/></svg>
+    </a>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 50); });
+
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        const isMenuOpen = () => navLinks.classList.contains('open');
+        const setMenuOpen = (open) => {
+            menuToggle.classList.toggle('active', open);
+            navLinks.classList.toggle('open', open);
+            menuToggle.setAttribute('aria-expanded', String(open));
+            document.body.style.overflow = open ? 'hidden' : '';
+        };
+
+        menuToggle.addEventListener('click', () => {
+            setMenuOpen(!isMenuOpen());
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => setMenuOpen(false));
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') setMenuOpen(false);
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768 && isMenuOpen()) setMenuOpen(false);
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        const quickContactForm = document.getElementById('quickContactForm');
+        if (quickContactForm) {
+            quickContactForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                const formData = new FormData(quickContactForm);
+                const nome = (formData.get('nome') || '').toString().trim();
+                const email = (formData.get('email') || '').toString().trim();
+                const telefone = (formData.get('telefone') || '').toString().trim();
+                const mensagem = (formData.get('mensagem') || '').toString().trim();
+
+                const textoWhatsapp =
+`Olá, Super Boxes 100!
+Meu nome é ${nome}.
+E-mail: ${email}
+WhatsApp: ${telefone}
+Mensagem: ${mensagem}`;
+
+                window.open(`https://wa.me/558530445749?text=${encodeURIComponent(textoWhatsapp)}`, '_blank', 'noopener,noreferrer');
+                quickContactForm.reset();
+            });
+        }
+
+        document.querySelectorAll('a[target="_blank"]').forEach(link => {
+            if (!link.rel) link.rel = 'noopener noreferrer';
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetSelector = this.getAttribute('href');
+
+                if (!targetSelector || targetSelector === '#') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    setMenuOpen(false);
+                    return;
+                }
+
+                const target = document.querySelector(targetSelector);
+                if (!target) return;
+
+                const top = target.getBoundingClientRect().top + window.pageYOffset - navbar.offsetHeight - 12;
+                window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+                setMenuOpen(false);
+            });
+        });
+    </script>
+</body>
+</html>
