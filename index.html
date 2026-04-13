@@ -124,12 +124,12 @@
 
         /* ── HERO ── */
         .hero {
-            min-height: 105vh; display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
             position: relative; overflow: hidden;
         }
         .hero-bg {
             position: absolute; inset: 0;
-            background: url('img/Fachada.png') 40% 16% / 138% no-repeat;
+            background: url('img/Fachada.png') 50% 60% / 118% no-repeat;
         }
         .hero-bg::after {
             content: ''; position: absolute; inset: 0;
@@ -137,20 +137,20 @@
         }
         .hero-content {
             position: relative; text-align: center; max-width: 900px;
-            padding: 2.2rem 2.3rem;
-            background: linear-gradient(180deg, rgba(8,15,10,0.58) 0%, rgba(8,15,10,0.34) 60%, rgba(8,15,10,0.58) 100%);
-            border: 1px solid rgba(var(--green-rgb), 0.22);
-            border-radius: 18px;
-            backdrop-filter: blur(3px);
-            box-shadow: 0 12px 36px rgba(0,0,0,0.22);
+            padding: 0 2rem;
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+            backdrop-filter: none;
+            box-shadow: none;
             text-shadow: 0 2px 14px rgba(0,0,0,0.55);
         }
         .hero-badge {
             display: inline-block; padding: 0.5rem 1.5rem;
-            border: 1px solid rgba(var(--green-rgb), 0.45); border-radius: 50px;
+            border: 0; border-radius: 50px;
             font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
-            background: rgba(8,15,10,0.45);
-            color: var(--green); margin-bottom: 2rem; animation: fadeIn 1s ease 0.2s both;
+            background: rgba(255,255,255,0.82);
+            color: #0f3b2a; margin-bottom: 2rem; animation: fadeIn 1s ease 0.2s both;
         }
         .hero h1 {
             font-family: 'Playfair Display', serif;
@@ -468,19 +468,19 @@
             .footer-content { flex-direction: column; text-align: center; }
             .footer-meta { align-items: center; }
             .footer-logo { width: 180px; }
-            .hero { min-height: 100vh; }
+            .hero { min-height: 90vh; }
             .hero-bg {
-                background-position: 42% 14%;
-                background-size: 190%;
+                background-position: 50% 62%;
+                background-size: 150%;
             }
-            .hero-content { padding: 1.5rem 1.2rem; border-radius: 14px; }
+            .hero-content { padding: 0 1rem; }
             .sector-banner { height: 360px; margin: -4rem -1.5rem 3rem -1.5rem; }
             .sector-banner-text { left: 1.5rem; padding: 0.8rem 1rem; max-width: calc(100% - 3rem); }
         }
         @media (max-width: 480px) {
             .hero-bg {
-                background-position: 44% 12%;
-                background-size: 235%;
+                background-position: 51% 65%;
+                background-size: 180%;
             }
             .about-image { height: 360px; }
             .sector-banner { height: 300px; }
